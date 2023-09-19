@@ -1,33 +1,38 @@
-#!/usr/bin/env python3
 import socket
-import time
+from threading import Thread
+BytesToRead = 4096
+HOST = "127.0.0.1"
+PORT = 8080
 
-#define address & buffer size
-HOST = ""
-PORT = 8001
-BUFFER_SIZE = 1024
-
-def main():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    
-        #QUESTION 3
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        
-        #bind socket to address
-        s.bind((HOST, PORT))
-        #set to listening mode
-        s.listen(2)
-        
-        #continuously listen for connections
+def handleConnection(conn,addr):
+    with conn:
+        print(f"connected by {addr}")
         while True:
-            conn, addr = s.accept()
-            print("Connected by", addr)
-            
-            #recieve data, wait a bit, then send it back
-            full_data = conn.recv(BUFFER_SIZE)
-            time.sleep(0.5)
-            conn.sendall(full_data)
-            conn.close()
+            data = conn.recv(BytesToRead)
+            if not data:
+                break
+            print(data)
+            conn.sendall(data)
 
-if __name__ == "__main__":
-    main()
+def startServer():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind((HOST, PORT))
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        s.listen()
+        while True:
+            conn,addr = s.accept()
+            handleConnection(conn, addr)
+        
+
+def startThreadedServer():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind((HOST, PORT))
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        s.listen(2)
+        while True:
+            conn,addr = s.accept()
+            thread = Thread(target = handleConnection, args=(conn, addr))
+            thread.run()
+
+#startServer()
+startThreadedServer()

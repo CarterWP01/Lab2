@@ -1,0 +1,32 @@
+browser does socket management
+socket is an endopoint on each connection
+specified by port and ip
+port -> specific to a service, uniquely identified connection endpoint
+
+1. have to bind to a port
+2. listen to the port
+3. connect to google (ip, port)
+4.host accepts connection
+5.send request for a page (google homepage
+6.google gives you there homepage)
+
+proxy acts like a server to a client pc, but acts like a client to the server
+
+AF_INET = use IPV4 
+SOCK_STREAM = USE TCP not UDP
+setsockop = behave a certain way
+    SOL_SOCKET = LAYER
+    SO_REUSEADOR, 1 -> REUSE SAME PORT NUMBER, allows other programs to use a port number
+WHEN WE CLOSE PROGRAM, SOCKET WILL GET CLOSE AFTER A WHILE (time awake state) by setting socket to 1, the port can be reused
+
+
+
+
+
+
+
+1. use sock SOCK_STREAM to specify a the socket to be a TCP connection
+2. server has to bind to an ip and port, server listenes for connection, while a client socket initializes a connection
+3. s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1), set the reuse address (port) to true
+4. RECEIVED CLIENTS IP, and clients PORT
+5. recv() once the client receives an empty byte string it means the connection is closed, empty byte string
