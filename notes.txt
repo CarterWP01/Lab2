@@ -30,3 +30,4 @@ WHEN WE CLOSE PROGRAM, SOCKET WILL GET CLOSE AFTER A WHILE (time awake state) by
 3. s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1), set the reuse address (port) to true
 4. RECEIVED CLIENTS IP, and clients PORT
 5. recv() once the client receives an empty byte string it means the connection is closed, empty byte string
+6.https://github.com/CarterWP01/Lab2
