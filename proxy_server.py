@@ -49,5 +49,5 @@ def startThreadedServer():
             thread = Thread(target=handleConnection, args = (conn, addr))
             thread.run()
 
-startServer()
-#startThreadedServer()
+#startServer()
+startThreadedServer()
